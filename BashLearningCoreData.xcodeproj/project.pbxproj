@@ -16,6 +16,8 @@
 		93C41EEB2A8E6A7A00BF4AD8 /* BashLearningCoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C41EEA2A8E6A7A00BF4AD8 /* BashLearningCoreDataTests.swift */; };
 		93C41EF52A8E6A7A00BF4AD8 /* BashLearningCoreDataUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C41EF42A8E6A7A00BF4AD8 /* BashLearningCoreDataUITests.swift */; };
 		93C41EF72A8E6A7A00BF4AD8 /* BashLearningCoreDataUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C41EF62A8E6A7A00BF4AD8 /* BashLearningCoreDataUITestsLaunchTests.swift */; };
+		93C41F052A8E6AE200BF4AD8 /* Person+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C41F032A8E6AE200BF4AD8 /* Person+CoreDataClass.swift */; };
+		93C41F0E2A8E843F00BF4AD8 /* Family+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C41F0A2A8E843F00BF4AD8 /* Family+CoreDataClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		93C41EF02A8E6A7A00BF4AD8 /* BashLearningCoreDataUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BashLearningCoreDataUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		93C41EF42A8E6A7A00BF4AD8 /* BashLearningCoreDataUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BashLearningCoreDataUITests.swift; sourceTree = "<group>"; };
 		93C41EF62A8E6A7A00BF4AD8 /* BashLearningCoreDataUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BashLearningCoreDataUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		93C41F032A8E6AE200BF4AD8 /* Person+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Person+CoreDataClass.swift"; sourceTree = "<group>"; };
+		93C41F0A2A8E843F00BF4AD8 /* Family+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Family+CoreDataClass.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,10 +102,10 @@
 		93C41ED32A8E6A7900BF4AD8 /* BashLearningCoreData */ = {
 			isa = PBXGroup;
 			children = (
+				93C41F072A8E6AF000BF4AD8 /* Model */,
 				93C41ED42A8E6A7900BF4AD8 /* BashLearningCoreDataApp.swift */,
 				93C41ED62A8E6A7900BF4AD8 /* ContentView.swift */,
 				93C41ED82A8E6A7A00BF4AD8 /* Assets.xcassets */,
-				93C41EDD2A8E6A7A00BF4AD8 /* Persistence.swift */,
 				93C41EDF2A8E6A7A00BF4AD8 /* BashLearningCoreData.xcdatamodeld */,
 				93C41EDA2A8E6A7A00BF4AD8 /* Preview Content */,
 			);
@@ -131,6 +135,16 @@
 				93C41EF62A8E6A7A00BF4AD8 /* BashLearningCoreDataUITestsLaunchTests.swift */,
 			);
 			path = BashLearningCoreDataUITests;
+			sourceTree = "<group>";
+		};
+		93C41F072A8E6AF000BF4AD8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				93C41EDD2A8E6A7A00BF4AD8 /* Persistence.swift */,
+				93C41F0A2A8E843F00BF4AD8 /* Family+CoreDataClass.swift */,
+				93C41F032A8E6AE200BF4AD8 /* Person+CoreDataClass.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +279,8 @@
 			files = (
 				93C41EDE2A8E6A7A00BF4AD8 /* Persistence.swift in Sources */,
 				93C41ED72A8E6A7900BF4AD8 /* ContentView.swift in Sources */,
+				93C41F0E2A8E843F00BF4AD8 /* Family+CoreDataClass.swift in Sources */,
+				93C41F052A8E6AE200BF4AD8 /* Person+CoreDataClass.swift in Sources */,
 				93C41EE12A8E6A7A00BF4AD8 /* BashLearningCoreData.xcdatamodeld in Sources */,
 				93C41ED52A8E6A7900BF4AD8 /* BashLearningCoreDataApp.swift in Sources */,
 			);

@@ -10,21 +10,26 @@ import CoreData
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Family.id, ascending: true)], predicate: nil, animation: .default)
+    private var families: FetchedResults<Family>
 
     var body: some View {
         NavigationView {
             List {
-                ForEach(items) { item in
+                ForEach(families) { family in
                     NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+                        List {
+                            ForEach(family.membersArray, id:\.self) { person in
+                                Text("\(person.wrappedFirstName) \(person.wrappedFamilyName), \(person.wrappedGender), \(person.age)")
+                            }
+                            
+                        }
+                        .navigationTitle(Text("🏠 \(family.wrappedName)"))
+                        
                     } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+                        Text("\(family.name!) count: \(family.members?.count ?? 0)")
                     }
+                    .navigationTitle("Family")
                 }
                 .onDelete(perform: deleteItems)
             }
@@ -44,9 +49,7 @@ struct ContentView: View {
 
     private func addItem() {
         withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
+            PersistenceController.newFamily(viewContext: viewContext)
             do {
                 try viewContext.save()
             } catch {
@@ -57,10 +60,10 @@ struct ContentView: View {
             }
         }
     }
-
+    
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
+            offsets.map { families[$0] }.forEach(viewContext.delete)
 
             do {
                 try viewContext.save()
@@ -73,13 +76,6 @@ struct ContentView: View {
         }
     }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
