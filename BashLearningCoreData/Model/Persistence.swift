@@ -35,14 +35,25 @@ struct PersistenceController {
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
+    
+    public func save() {
+        do {
+            try container.viewContext.save()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
 }
 
 extension PersistenceController {
-    static var preview: PersistenceController = {
+     public static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for _ in 0..<10 {
-            newFamily(viewContext: viewContext)
+            addNewFamilyWithRandomMembers(viewContext: viewContext)
         }
         do {
             try viewContext.save()
@@ -56,7 +67,7 @@ extension PersistenceController {
     }()
     
     @discardableResult
-    static func newPerson(viewContext:NSManagedObjectContext, familyName:String) -> Person {
+    public static func newPerson(viewContext:NSManagedObjectContext, familyName:String) -> Person {
         let newPerson = Person(context: viewContext)
         newPerson.id = UUID()
         newPerson.lastName = randomPersonLastName()
@@ -68,7 +79,7 @@ extension PersistenceController {
     }
     
     @discardableResult
-    static func newFamily(viewContext: NSManagedObjectContext) -> Family {
+    static func addNewFamilyWithRandomMembers(viewContext: NSManagedObjectContext) -> Family {
         let newFamily = Family(context: viewContext)
         newFamily.id = UUID()
         let familyName = randomFamilyName()
@@ -83,6 +94,52 @@ extension PersistenceController {
         
         return newFamily
     }
+    
+    @discardableResult
+    static func addFamily(id: UUID?, name: String?,
+                          address: String?, members:[Person]?, viewContext: NSManagedObjectContext) -> Family {
+        let newFamily = Family(context: viewContext)
+        newFamily.id = id
+        newFamily.name = name
+        newFamily.address = address
+        if let members = members {
+            for person in members {
+                newFamily.addToMembers(person)
+            }
+        }
+        return newFamily
+    }
+    
+    @discardableResult
+    static func deleteFamily(family: Family,
+                             viewContext: NSManagedObjectContext) -> Family {
+        viewContext.delete(family)
+        do {
+            try viewContext.save()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+        return family
+    }
+    
+    @discardableResult
+    static func addPerson(id: UUID?, firstName: String?, lastName: String?,
+                          birthDate: Date?, gender: String?, family: Family?,
+                          contextView: NSManagedObjectContext) -> Person {
+        let person = Person(context: contextView)
+        person.id = id
+        person.firstName = firstName
+        person.lastName = lastName
+        person.birthdate = birthDate
+        person.gender = gender
+        person.family = family
+        
+        return person
+    }
+    
     static func randomPersonLastName() -> String {
         return ["Emma","Olivia","Ava","Isabella","Sophia","Mia","Charlotte","Amelia","Evelyn",
          "Harper","Emily","Abigail","Ella","Lily","Layla","Hannah","Elizabeth","Aaliyah","Zoey"]
@@ -93,4 +150,10 @@ extension PersistenceController {
     return["Mike","Nick","John","James","Robert","William","David","Charles","Thomas","Michael","Paul","George","Richard","Joseph","Daniel","Christopher","Anthony","Edward","Steven","Andrew"]
             .randomElement()!
     }
+}
+
+extension PersistenceController {
+    static var unitTest: PersistenceController = {
+        return PersistenceController(inMemory: true)
+    }()
 }
